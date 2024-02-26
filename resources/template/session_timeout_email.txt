@@ -1,0 +1,11 @@
+Dear ${groupName}!,
+
+	I am writing to inform you that our Proxmox monitor is currently experiencing session timeout.
+You need to login again.
+
+	Server : ${serverName}!
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!

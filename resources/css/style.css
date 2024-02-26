@@ -1,0 +1,481 @@
+* {
+	-fx-accent-color: #e8430c;
+	-fx-accent-color-dark: #a62b02;
+	-fx-accent-text-color-1: white;
+}
+
+.font-s {
+	-fx-font-size: 1em;
+}
+
+.font-m {
+	-fx-font-size: 1.1em;
+}
+
+.font-l {
+	-fx-font-size: 1.2em;
+}
+
+.font-xl {
+	-fx-font-size: 1.3em;
+}
+
+.font-2xl {
+	-fx-font-size: 1.4em;
+}
+
+.font-3xl {
+	-fx-font-size: 1.5em;
+}
+
+.font-4xl {
+	-fx-font-size: 1.7em;
+}
+
+.font-5xl {
+	-fx-font-size: 1.85em;
+}
+
+.font-big-s {
+	-fx-font-size: 2em;
+}
+
+.font-big-m {
+	-fx-font-size: 2.2em;
+}
+
+.font-big-l {
+	-fx-font-size: 2.4em;
+}
+
+.font-big-xl {
+	-fx-font-size: 2.5em;
+}
+
+.font-big-2xl {
+	-fx-font-size: 2.6em;
+}
+
+.font-big-3xl {
+	-fx-font-size: 2.7em;
+}
+
+.font-huge-s {
+	-fx-font-size: 3em;
+}
+
+.font-huge-m {
+	-fx-font-size: 3.2em;
+}
+
+.font-huge-l {
+	-fx-font-size: 3.4em;
+}
+
+
+.font-huge-xl {
+	-fx-font-size: 3.6em;
+}
+
+.font-huge-2xl {
+	-fx-font-size: 3.75em;
+}
+
+.font-huge-3xl {
+	-fx-font-size: 3.85em;
+}
+
+.font-bold {
+	-fx-font-weight: bold;
+}
+
+.bg_black {
+	-fx-background-color: black;
+}
+
+.bg_accent {
+	-fx-background-color: -fx-accent-color;
+}
+
+.bg_gray {
+	-fx-background-color: #363636;
+}
+
+.bg_red {
+	-fx-background-color: red;
+}
+
+ScrollPane.bg_black > .viewport {
+	-fx-background-color: black;
+}
+
+ScrollPane > .corner {
+    -fx-background-color: red;
+}
+
+ScrollPane > .scroll-bar:vertical {
+    -fx-background-color : transparent;
+}
+
+ScrollPane > .scroll-bar:vertical .thumb {
+    -fx-background-color : -fx-accent-color;
+    -fx-background-radius : 1em;
+    -fx-cursor: hand;
+}
+
+ScrollPane > .scroll-bar:vertical .decrement-button,
+ScrollPane > .scroll-bar:vertical .increment-button {
+    -fx-background-color : transparent;
+    -fx-cursor: hand;
+}
+
+.table-view {
+	-fx-border-color: gray;
+}
+
+.table-view .column-header{
+    -fx-font-size: 1.2em;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: gray;
+  	-fx-padding: 1em;
+}
+
+.table-view .table-cell{
+    -fx-font-size: 1.1em;
+    -fx-pref-height: 3em;
+    -fx-border-color: transparent;
+}
+
+.table-view .scroll-bar:horizontal,
+.table-view .scroll-bar:vertical{
+    -fx-background-color: black;
+}
+
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: gray;
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+
+.table-row-cell {
+    -fx-background: black;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: -fx-accent-color;
+}
+
+
+.table-row-cell:empty,
+.table-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.text_white {
+	-fx-text-fill: white;
+}
+
+.text_accent {
+	-fx-text-fill: -fx-accent-color;
+}
+
+.text_red {
+	-fx-text-fill: red;
+}
+
+.text_skyblue {
+	-fx-text-fill: #02bcfa;
+}
+
+.btn_new_monitor_config {
+	-fx-background-color: -fx-accent-color;
+	-fx-background-radius: 50%;
+}
+
+.btn_new_monitor_config .icon {
+	-fx-text-fill: white;
+	-fx-fill: white;
+	-fx-pref-width: 10px;
+	-fx-pref-height: 10px;
+}
+
+.btn_new_monitor_config:hover {
+	-fx-background-color: -fx-accent-color-dark;
+}
+
+.btn_new_monitor_config:pressed {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.btn_refresh_monitor_config {
+	-fx-background-color: -fx-accent-color;
+	-fx-background-radius: 50%;
+}
+
+.btn_refresh_monitor_config .icon {
+	-fx-text-fill: white;
+	-fx-fill: white;
+	-fx-pref-width: 10px;
+	-fx-pref-height: 10px;
+}
+
+.btn_refresh_monitor_config:hover {
+	-fx-background-color: -fx-accent-color-dark;
+}
+
+.btn_refresh_monitor_config:pressed {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.btn_accent {
+	-fx-background-color: -fx-accent-color;
+	-fx-fill: white;
+	-fx-text-fill: white;
+}
+
+.btn_accent:hover {
+	-fx-background-color: -fx-accent-color-dark;
+}
+
+.btn_white {
+	-fx-background-color: white;
+	-fx-fill: black;
+	-fx-text-fill: black;
+}
+
+.btn_white:hover {
+	-fx-background-color: #cccccc;
+}
+
+.btn_remove_user {
+	-fx-background-color: white;
+	-fx-border-color: white;
+	-fx-border-radius: 0.5em;
+	-fx-background-radius: 0.5em;
+	-fx-cursor: hand;
+}
+
+.btn_remove_user:hover {
+	-fx-background-color: #c9c9c9;
+}
+
+Button:pressed {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.input_accent {
+	-fx-border-color: white;
+	-fx-border-radius: 2px;
+	-fx-background-color: black;
+	-fx-text-fill: white;
+	-fx-prompt-text-fill: white;
+}
+
+.input_accent .list-view {
+	-fx-border-color: white;
+}
+
+.input_accent .list-cell {
+	-fx-text-fill: white;
+	-fx-background-color: black;
+	-fx-cursor: hand;
+}
+
+.input_accent .list-view .list-cell:hover,
+.input_accent .list-view .list-cell:selected {
+	-fx-text-fill: white;
+	-fx-background-color: -fx-accent-color;
+}
+
+.selector_white {
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
+	-fx-background-color: white;
+	-fx-text-fill: black;
+	-fx-prompt-text-fill: black;
+}
+
+.selector_white .list-view {
+	-fx-border-color: white;
+}
+
+.selector_white .list-cell {
+	-fx-border-radius: 2px;
+	-fx-background-radius: 2px;
+	-fx-text-fill: black;
+	-fx-background-color: white;
+	-fx-cursor: hand;
+}
+
+.selector_white .list-view .list-cell:hover,
+.selector_white .list-view .list-cell:selected {
+	-fx-text-fill: white;
+	-fx-background-color: -fx-accent-color;
+}
+
+.accent_border_pane {
+	-fx-border-color: -fx-accent-color;
+}
+
+.border_accent:focused {
+	-fx-border-color: -fx-accent-color;
+}
+
+.loading_accent {
+	-fx-progress-color: -fx-accent-color;
+}
+
+.monitor_config_card {
+	-fx-background-radius: 0.5em;
+	-fx-padding: 20px;
+	-fx-background-color: -fx-accent-color;
+	-fx-pref-width: 250px;
+	-fx-alignment: CENTER;
+	-fx-spacing: 10px;
+}
+
+.monitor_config_card .name_label {
+	-fx-font-size: 16px;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+}
+
+.monitor_config_card .host_label {
+	-fx-font-size: 13px;
+	-fx-font-weight: bold;
+	-fx-text-fill: white;
+}
+
+.monitor_config_card .button_bar {
+	-fx-alignment: CENTER;
+}
+
+.monitor_config_card .button_bar .btn_action {
+	-fx-pref-width: 40px;
+	-fx-pref-height: 40px;
+	-fx-padding: 2px;
+	-fx-background-radius: 50%;
+	-fx-background-color: black;
+	-fx-cursor: hand;
+}
+
+.monitor_config_card .button_bar .btn_action:pressed {
+	-fx-scale-x: 0.9;
+	-fx-scale-y: 0.9;
+}
+
+.monitor_config_card .button_bar .btn_action .icon {
+	-fx-fill: white;
+}
+
+
+.progress_bar > .track {
+  	-fx-background-insets:  0, 1;
+}
+
+.progress_bar > .bar {
+  	-fx-background-insets:  0, 1;
+}
+
+.progress_bar.progress_bar_blue > .track {
+  	-fx-background-color: #363636;
+}
+
+.progress_bar.progress_bar_blue > .bar {
+  	-fx-background-color: #02bcfa;
+}
+
+.load-chart .chart-content .chart-plot-background {
+    -fx-background-color: black;
+}
+
+.load-chart .chart-series-area-line {
+	-fx-stroke-width: 0.3em;
+}
+
+.load-chart .axis-label {
+	-fx-text-fill: white;
+	-fx-font-size: 1.2em;
+}
+
+.load-chart .axis{
+  -fx-tick-label-font-size: 1.1em;
+}
+
+.load-chart .cpu-series .chart-series-area-line {
+	-fx-stroke: rgba(204, 255, 0, 1);
+}
+
+.load-chart .cpu-series .chart-series-area-fill {
+	-fx-fill: rgba(204, 255, 0, 0.6);
+}
+
+.load-chart .io-series .chart-series-area-line {
+	-fx-stroke: rgba(3, 120, 255, 1);
+}
+
+.load-chart .io-series .chart-series-area-fill {
+	-fx-fill: rgba(3, 120, 255, 0.6);
+}
+
+.load-chart .default-color0.chart-legend-item-symbol {
+	-fx-background-color: rgba(204, 255, 0, 1);
+}
+
+.load-chart .default-color1.chart-legend-item-symbol {
+	-fx-background-color:rgba(3, 120, 255, 1);
+}
+
+.load-chart .chart-area-symbol {
+	-fx-pref-width: 0.6em;
+	-fx-pref-height: 0.6em;
+	-fx-background-radius: 50%;
+}
+
+.load-chart .default-color0.chart-area-symbol {
+	-fx-background-color: rgba(204, 255, 0, 1);
+}
+
+.load-chart .default-color1.chart-area-symbol {
+	-fx-background-color: rgba(3, 120, 255, 1);
+}
+
+.btn_add_email {
+	-fx-background-color: green;
+}
+
+.btn_add_email:hover {
+	-fx-background-color: blue;
+}
+
+.check-box .box {
+	-fx-background-color: gray;
+	-fx-border-color:grey;
+	-fx-border-radius:3px; 
+}
+
+.check-box:selected .mark {
+	-fx-background-color: white;
+}
+
+.check-box:selected .box {
+	-fx-background-color: green;
+}

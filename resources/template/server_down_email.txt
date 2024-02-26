@@ -1,0 +1,10 @@
+Dear ${groupName}!,
+
+	This is an automated notification to inform you that our Proxmox Virtual Environment server is currently down and inaccessible.
+
+	Server : ${serverName}! 
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!

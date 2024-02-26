@@ -1,0 +1,10 @@
+Dear ${groupName}!,
+
+	I'm pleased to inform you that our Proxmox Virtual Environment server is now back online and fully operational.
+	
+	Server : ${serverName}!
+	Time   : ${time}!
+	
+Sincerely,
+
+${author}!

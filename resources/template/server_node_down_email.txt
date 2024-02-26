@@ -1,0 +1,12 @@
+Dear ${groupName}!,
+
+	Our monitoring system has detected a critical issue:
+one of the nodes in our Proxmox Virtual Environment server cluster is currently offline.
+
+	Server : ${serverName}!
+	Node   : ${nodeName}!
+	Time   : ${time}!
+	
+Sincerely,
+
+${author}!

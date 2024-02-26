@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="600.0" spacing="10.0" style="-fx-pref-width: 55em; -fx-pref-height: 50em;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.khun.proxmoxnitor.controller.MainWindowController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <Label text="Proxmox">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text_white" />
+                  <String fx:value="text_accent" />
+                  <String fx:value="font-big-3xl" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Label>
+            <Label text="nitor">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+               <effect>
+                  <Bloom threshold="0.98" />
+               </effect>
+               <styleClass>
+                  <String fx:value="text_white" />
+                  <String fx:value="font-big-3xl" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" spacing="5.0">
+               <children>
+                  <Button fx:id="newConfigBtn" mnemonicParsing="false" onAction="#showNewMonitorConfigurationForm" prefHeight="50.0" prefWidth="50.0" style="-fx-pref-width: 4.5em; -fx-pref-height: 4.5em;" styleClass="btn_new_monitor_config">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <SVGPath content="M22 11.5v3c0 0.828-0.672 1.5-1.5 1.5h-6.5v6.5c0 0.828-0.672 1.5-1.5 1.5h-3c-0.828 0-1.5-0.672-1.5-1.5v-6.5h-6.5c-0.828 0-1.5-0.672-1.5-1.5v-3c0-0.828 0.672-1.5 1.5-1.5h6.5v-6.5c0-0.828 0.672-1.5 1.5-1.5h3c0.828 0 1.5 0.672 1.5 1.5v6.5h6.5c0.828 0 1.5 0.672 1.5 1.5z" styleClass="icon" />
+                     </graphic>
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="2.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Label text="New">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-xl" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" spacing="5.0">
+               <children>
+                  <Button fx:id="refreshConfigBtn" mnemonicParsing="false" onAction="#refreshConfigurationList" prefHeight="50.0" prefWidth="50.0" style="-fx-pref-width: 4.5em; -fx-pref-height: 4.5em;" styleClass="btn_new_monitor_config">
+                     <graphic>
+                        <SVGPath content="M23.609 16.5c0 0.031 0 0.078-0.016 0.109-1.328 5.531-5.891 9.391-11.656 9.391-3.047 0-6-1.203-8.219-3.313l-2.016 2.016c-0.187 0.187-0.438 0.297-0.703 0.297-0.547 0-1-0.453-1-1v-7c0-0.547 0.453-1 1-1h7c0.547 0 1 0.453 1 1 0 0.266-0.109 0.516-0.297 0.703l-2.141 2.141c1.469 1.375 3.422 2.156 5.437 2.156 2.781 0 5.359-1.437 6.813-3.813 0.375-0.609 0.562-1.203 0.828-1.828 0.078-0.219 0.234-0.359 0.469-0.359h3c0.281 0 0.5 0.234 0.5 0.5zM24 4v7c0 0.547-0.453 1-1 1h-7c-0.547 0-1-0.453-1-1 0-0.266 0.109-0.516 0.297-0.703l2.156-2.156c-1.484-1.375-3.437-2.141-5.453-2.141-2.781 0-5.359 1.437-6.813 3.813-0.375 0.609-0.562 1.203-0.828 1.828-0.078 0.219-0.234 0.359-0.469 0.359h-3.109c-0.281 0-0.5-0.234-0.5-0.5v-0.109c1.344-5.547 5.953-9.391 11.719-9.391 3.063 0 6.047 1.219 8.266 3.313l2.031-2.016c0.187-0.187 0.438-0.297 0.703-0.297 0.547 0 1 0.453 1 1z" styleClass="icon" />
+                     </graphic>
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="2.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label text="Refresh">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-xl" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label fx:id="totalConfigurationLabel" text="Total : 3 Configurations">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <styleClass>
+            <String fx:value="text_white" />
+            <String fx:value="font-l" />
+         </styleClass>
+      </Label>
+      <StackPane VBox.vgrow="ALWAYS">
+         <children>
+            <ScrollPane fx:id="configScrollView" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" styleClass="bg_black">
+               <content>
+                  <FlowPane fx:id="configFlowPane" alignment="TOP_CENTER" hgap="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWrapLength="0.0" styleClass="bg_black" vgap="20.0" />
+               </content>
+            </ScrollPane>
+            <VBox fx:id="loadingView" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" StackPane.alignment="CENTER">
+               <children>
+                  <ProgressIndicator style="-fx-pref-height: 5em;" styleClass="loading_accent" />
+                  <Label text="Loading...">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-l" />
+                     </styleClass></Label>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+   <styleClass>
+      <String fx:value="bg_black" />
+      <String fx:value="accent_border_pane" />
+   </styleClass>
+</VBox>

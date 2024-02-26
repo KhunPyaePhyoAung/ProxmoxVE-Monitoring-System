@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="mainStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-pref-width: 28em;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.khun.proxmoxnitor.controller.MonitorConfigurationWindowController">
+   <children>
+      <VBox fx:id="loadingView" alignment="CENTER" opacity="0.8" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="bg_black">
+         <children>
+            <ProgressIndicator style="-fx-pref-height: 5em;" styleClass="loading_accent" />
+            <Label text="Saving...">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text_white" />
+                  <String fx:value="font-l" />
+               </styleClass></Label>
+         </children>
+      </VBox>
+      <VBox fx:id="formView" prefWidth="300.0" spacing="5.0" styleClass="bg_black">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="formTitleLabel" text="New Configuration">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_accent" />
+                        <String fx:value="font-xl" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" spacing="1.0">
+               <children>
+                  <Label text="Name">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <TextField fx:id="nameInput">
+                     <styleClass>
+                        <String fx:value="input_accent" />
+                        <String fx:value="border_accent" />
+                     </styleClass>
+                  </TextField>
+                  <Label fx:id="nameErrorLabel">
+                     <styleClass>
+                        <String fx:value="text_red" />
+                        <String fx:value="font-s" />
+                     </styleClass></Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" spacing="1.0">
+               <children>
+                  <Label text="Hostname">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <TextField fx:id="hostnameInput">
+                     <styleClass>
+                        <String fx:value="input_accent" />
+                        <String fx:value="border_accent" />
+                     </styleClass>
+                  </TextField>
+                  <Label fx:id="hostnameErrorLabel">
+                     <styleClass>
+                        <String fx:value="text_red" />
+                        <String fx:value="font-s" />
+                     </styleClass></Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" spacing="1.0">
+               <children>
+                  <Label text="Port">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <TextField fx:id="portInput">
+                     <styleClass>
+                        <String fx:value="input_accent" />
+                        <String fx:value="border_accent" />
+                     </styleClass>
+                  </TextField>
+                  <Label fx:id="portErrorLabel">
+                     <styleClass>
+                        <String fx:value="text_red" />
+                        <String fx:value="font-s" />
+                     </styleClass></Label>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#close" prefWidth="75.0" style="-fx-pref-width: 7em;" text="Cancle">
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_white" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#saveConfiguration" prefWidth="75.0" style="-fx-pref-width: 6em;" text="Save">
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_accent" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+      </VBox>
+   </children>
+   <styleClass>
+      <String fx:value="bg_black" />
+      <String fx:value="accent_border_pane" />
+   </styleClass>
+</StackPane>

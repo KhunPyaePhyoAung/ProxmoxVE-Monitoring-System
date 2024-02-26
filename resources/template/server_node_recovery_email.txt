@@ -1,0 +1,11 @@
+Dear ${groupName}!,
+
+	I am pleased to inform you that the previously offline Proxmox node has been successfully recovered and is now back online.
+	
+	Server : ${serverName}!
+	Node   : ${nodeName}!
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!

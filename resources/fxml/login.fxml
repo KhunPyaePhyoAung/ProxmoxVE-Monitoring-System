@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="mainStackPane" style="-fx-pref-width: 30em; -fx-border-color: #e8430c; -fx-border-width: 0.1em;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.khun.proxmoxnitor.controller.MonitorLoginWindowController">
+   <children>
+      <VBox fx:id="loadingView" alignment="CENTER" opacity="0.8" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="bg_black">
+         <children>
+            <ProgressIndicator focusTraversable="false" style="-fx-pref-height: 5em;" styleClass="loading_accent" />
+            <Label fx:id="loadingLabel" focusTraversable="false" text="Logging In">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text_white" />
+                  <String fx:value="font-l" />
+               </styleClass></Label>
+         </children>
+      </VBox>
+      <VBox fx:id="hostErrorView" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="bg_black">
+         <children>
+            <MaterialDesignIconView fill="RED" glyphName="EARTH_OFF" style="-fx-font-size: 5em;" />
+            <Label text="Host not found.">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text_red" />
+                  <String fx:value="font-3xl" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Label>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#close" prefWidth="80.0" text="Close">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Lighting specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_white" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#setupRealmSelector" prefWidth="80.0" text="Reload">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Lighting specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_accent" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox fx:id="loginView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="bg_black">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label fx:id="nameLabel" text="---">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-xl" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Label>
+                  <Label fx:id="addressLabel" text="----------">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text_accent" />
+                        <String fx:value="font-s" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </VBox>
+            <Label fx:id="errorLabel">
+               <styleClass>
+                  <String fx:value="text_red" />
+                  <String fx:value="font-s" />
+               </styleClass></Label>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Username">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <TextField fx:id="usernameInput" prefWidth="250.0" text="root">
+                     <opaqueInsets>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </opaqueInsets>
+                     <styleClass>
+                        <String fx:value="border_accent" />
+                        <String fx:value="input_accent" />
+                        <String fx:value="font-m" />
+                     </styleClass>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Password">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <PasswordField fx:id="passwordInput" prefWidth="250.0" text="jicacbmproject">
+                     <styleClass>
+                        <String fx:value="border_accent" />
+                        <String fx:value="input_accent" />
+                        <String fx:value="font-m" />
+                     </styleClass>
+                  </PasswordField>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Realm">
+                     <styleClass>
+                        <String fx:value="text_white" />
+                        <String fx:value="font-m" />
+                     </styleClass></Label>
+                  <ComboBox fx:id="realmSelector" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0">
+                     <styleClass>
+                        <String fx:value="border_accent" />
+                        <String fx:value="input_accent" />
+                        <String fx:value="font-m" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ComboBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Button focusTraversable="false" mnemonicParsing="false" onAction="#close" prefWidth="75.0" text="Close" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_white" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#login" prefWidth="75.0" text="Login" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Lighting diffuseConstant="1.2" specularConstant="2.0" specularExponent="30.0" surfaceScale="1.0">
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant azimuth="300.0" />
+                           </light>
+                        </Lighting>
+                     </effect>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="btn_accent" />
+                        <String fx:value="font-s" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

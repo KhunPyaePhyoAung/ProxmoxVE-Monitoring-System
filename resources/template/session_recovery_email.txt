@@ -1,0 +1,10 @@
+Dear ${groupName}!,
+
+	I'm pleased to report that a new session has been successfully logged in to the Proxmox monitor.
+
+	Server : ${serverName}!
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!
