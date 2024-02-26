@@ -30,6 +30,7 @@ import javafx.scene.Cursor;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -176,6 +177,16 @@ public class MonitorController implements Initializable {
 	@FXML
 	private Label pveManagerVersionLabel;
 	
+	@FXML
+	private CheckBox cpuCheckBox;
+	
+	@FXML
+	private CheckBox ioCheckBox;
+	
+	private XYChart.Series<String, Float> cpuSeries;
+	
+	private XYChart.Series<String, Float> ioSeries;
+	
 	private MonitorService monitorService;
 	
 	private String activeNode;
@@ -248,6 +259,10 @@ public class MonitorController implements Initializable {
 	
 	private final int REFRESH_TICKET_INTERVAL = 7000;
 	
+	private boolean showCpuSeries = true;
+	
+	private boolean showIoSeries = true;
+	
 	private volatile MonitorStatus status;
 	
 	private int rootFontSize;
@@ -270,6 +285,19 @@ public class MonitorController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		emailNotificationService = Dependencies.getEmailNotificationService();
 		configService = Dependencies.getMonitorConfigurationService();
+		
+		showCpuSeries = cpuCheckBox.isSelected();
+		showIoSeries = ioCheckBox.isSelected();
+		
+		cpuCheckBox.selectedProperty().addListener((l, o, n) -> {
+			showCpuSeries = n;
+			handleChartCheckBoxChange();
+		});
+		
+		ioCheckBox.selectedProperty().addListener((l, o, n) -> {
+			showIoSeries = n;
+			handleChartCheckBoxChange();
+		});
 		
 		screenWidth = Screen.getPrimary().getBounds().getWidth();
 		rootFontSize = ProxmoxnitorApplication.getRootFontSize(screenWidth);
@@ -741,6 +769,20 @@ public class MonitorController implements Initializable {
 		thread.start();
 	}
 	
+	private void handleChartCheckBoxChange() {
+		
+		cpuSeries.getNode().setVisible(showCpuSeries);
+		ioSeries.getNode().setVisible(showIoSeries);
+
+		for (XYChart.Data<String, Float> d : cpuSeries.getData()) {
+			d.getNode().setVisible(showCpuSeries);
+		}
+		
+		for (XYChart.Data<String, Float> d : ioSeries.getData()) {
+			d.getNode().setVisible(showIoSeries);
+		}
+	}
+	
 	private void updateMonitorLabels(PveStatusDto statusDto) {
 		float[] loadAverage = statusDto.getLoadAverage();
 		
@@ -766,13 +808,13 @@ public class MonitorController implements Initializable {
 	}
 	
 	private void updateMonitorLoadChart(List<PveRrdDataDto> rrdDtos) {
-		XYChart.Series<String, Float> cpuSeries = new XYChart.Series<String, Float>();
+		cpuSeries = new XYChart.Series<String, Float>();
 		cpuSeries.setName("CPU Usage");
 		cpuSeries.getData().addAll(
 			rrdDtos.stream().map(rrd -> new XYChart.Data<String, Float>(rrd.getTimestampFormatted(), rrd.getCpuUsageInPercentage())).collect(Collectors.toList())
 		);
 		
-		XYChart.Series<String, Float> ioSeries = new XYChart.Series<String, Float>();
+		ioSeries = new XYChart.Series<String, Float>();
 		ioSeries.setName("IO Delay");
 		ioSeries.getData().addAll(
 				rrdDtos.stream().map(rrd -> new XYChart.Data<String, Float>(rrd.getTimestampFormatted(), rrd.getIoDelayInPercentage())).collect(Collectors.toList())
@@ -781,7 +823,6 @@ public class MonitorController implements Initializable {
 		loadChart.getData().clear();
 		loadChart.getData().add(cpuSeries);
 		loadChart.getData().add(ioSeries);
-		
 		
 		cpuSeries.getNode().getStyleClass().add("cpu-series");
 		ioSeries.getNode().getStyleClass().add("io-series");
@@ -799,6 +840,8 @@ public class MonitorController implements Initializable {
 			t.setFont(Font.font(t.getFont().getSize() * 1.2));
             Tooltip.install(d.getNode(), t);
 		});
+		
+		handleChartCheckBoxChange();
 		
 		updateDateAxisLabels();
 	}

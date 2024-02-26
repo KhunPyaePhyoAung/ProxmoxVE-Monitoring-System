@@ -479,3 +479,31 @@ Button:pressed {
 .check-box:selected .box {
 	-fx-background-color: green;
 }
+
+.check-box.cpu .box {
+	-fx-background-color: gray;
+	-fx-border-color:grey;
+	-fx-border-radius:3px; 
+}
+
+.check-box.cpu:selected .mark {
+	-fx-background-color: black;
+}
+
+.check-box.cpu:selected .box {
+	-fx-background-color: #ccff00;
+}
+
+.check-box.io .box {
+	-fx-background-color: gray;
+	-fx-border-color:grey;
+	-fx-border-radius:3px; 
+}
+
+.check-box.io:selected .mark {
+	-fx-background-color: white;
+}
+
+.check-box.io:selected .box {
+	-fx-background-color: #0378ff;
+}
