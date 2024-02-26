@@ -26,5 +26,3 @@ replay_pid*
 /.project
 /.settings
 /bin
-
-resources/config/gmail_stmp.properties
