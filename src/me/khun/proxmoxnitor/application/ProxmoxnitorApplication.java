@@ -43,6 +43,13 @@ public class ProxmoxnitorApplication extends Application {
 			e.printStackTrace();
 		}
 		
+		Path logFolder = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "Logs");
+		try {
+			Files.createDirectories(logFolder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		launch(args);
 	}
 	

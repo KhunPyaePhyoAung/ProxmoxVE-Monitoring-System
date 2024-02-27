@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -59,6 +60,8 @@ import me.khun.proxmoxnitor.entiry.MonitorConfiguration;
 import me.khun.proxmoxnitor.exception.ProxmoxAuthenticationException;
 import me.khun.proxmoxnitor.exception.ProxmoxHostNotFoundException;
 import me.khun.proxmoxnitor.exception.ProxmoxNodeNotFoundException;
+import me.khun.proxmoxnitor.log.LogEntity;
+import me.khun.proxmoxnitor.log.Logger;
 import me.khun.proxmoxnitor.pve.PveRrdDataType;
 import me.khun.proxmoxnitor.pve.PveStatus;
 import me.khun.proxmoxnitor.service.EmailNotificationService;
@@ -275,6 +278,8 @@ public class MonitorController implements Initializable {
 	
 	private MonitorConfigurationService configService;
 	
+	private Logger logger;
+	
 	private String configId;
 	
 	private enum MonitorStatus {
@@ -285,6 +290,7 @@ public class MonitorController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		emailNotificationService = Dependencies.getEmailNotificationService();
 		configService = Dependencies.getMonitorConfigurationService();
+		logger = Dependencies.getLogger();
 		
 		showCpuSeries = cpuCheckBox.isSelected();
 		showIoSeries = ioCheckBox.isSelected();
@@ -355,11 +361,17 @@ public class MonitorController implements Initializable {
 		rrdTypeSelector.setCellFactory(rrdSelectorCellFactory);
 		
 		Platform.runLater(() -> {
-			emailNotificationService.setConfiguration(configService.findById(configId));
+			MonitorConfiguration config = configService.findById(configId);
+			emailNotificationService.setConfiguration(config);
+			logger.setMonitorConfiguration(config);
 			setStage();
 			mainStackPane.styleProperty().bind(Bindings.format("-fx-font-size: %dpx;", rootFontSize));
+			runBackground(() -> {
+				log("Start Monitoring", "Start monitoring the Proxmox Server");
+			});
 		});
 		refreshMonitorView();
+		
 	}
 	
 	@FXML
@@ -645,7 +657,8 @@ public class MonitorController implements Initializable {
 				}
 				showNodeErrorView(emptyNodes ? "No node found." : String.format("Node \"%s\" not found.", activeNode));
 				runBackground(() -> {
-					emailNotificationService.sendNodeOfflineNotification(activeNode);
+					emailNotificationService.sendNodeOfflineNotification(offlineNode);
+					log("Node Not Found", String.format("Node %s not found", offlineNode));
 				});
 			}
 		}
@@ -664,10 +677,14 @@ public class MonitorController implements Initializable {
 		synchronized (status) {
 			if (status != MonitorStatus.SERVER_DOWN) {
 				status = MonitorStatus.SERVER_DOWN;
-				runBackground(emailNotificationService::sendServerDownNotification);
+				runBackground(() -> {
+					emailNotificationService.sendServerDownNotification();
+					log("Server down", "The server is down.");
+				});
 				stopAllAlert();
 				serverDownAlertTimeline.play();
 				showServerDownView();
+				
 			}
 		}
 		
@@ -677,7 +694,10 @@ public class MonitorController implements Initializable {
 		synchronized (status) {
 			if (status == MonitorStatus.SERVER_DOWN) {
 				status = MonitorStatus.RUNNING;
-				runBackground(emailNotificationService::sendServerRecoveryNotification);
+				runBackground(() -> {
+					emailNotificationService.sendServerRecoveryNotification();
+					log("Server Recovery", "The server is online back.");
+				});
 				stopAllAlert();
 				serverRecoveryAlertTimeline.play();
 			}
@@ -690,7 +710,10 @@ public class MonitorController implements Initializable {
 				status = MonitorStatus.RUNNING;
 				stopAllAlert();
 				if (offlineNode == activeNode) {
-					runBackground(() -> emailNotificationService.sendNodeRecoveryNotification(activeNode));
+					runBackground(() -> {
+						emailNotificationService.sendNodeRecoveryNotification(activeNode);
+						log("Node Recovery", String.format("The node %s is online back.", activeNode));
+					});
 					serverRecoveryAlertTimeline.play();
 				}
 				offlineNode = null;
@@ -702,7 +725,10 @@ public class MonitorController implements Initializable {
 		synchronized (status) {
 			if (status == MonitorStatus.SESSION_TIMEOUT) {
 				status = MonitorStatus.RUNNING;
-				runBackground(emailNotificationService::sendSessionRecoveryNotification);
+				runBackground(() -> {
+					emailNotificationService.sendSessionRecoveryNotification();
+					log("Session Reovery", "Successfully refresh the session.");
+				});
 				stopAllAlert();
 			}
 		}
@@ -712,7 +738,10 @@ public class MonitorController implements Initializable {
 		synchronized (status) {
 			if (status != MonitorStatus.SESSION_TIMEOUT) {
 				status = MonitorStatus.SESSION_TIMEOUT;
-				runBackground(emailNotificationService::sendSessionTimeoutNotification);
+				runBackground(() -> {
+					emailNotificationService.sendSessionTimeoutNotification();
+					log("Session Timeout", "The session is expired.");
+				});
 				stopAllAlert();
 				unauthenticatedAlertTimeline.play();
 				showSessionTimeoutView();
@@ -1112,6 +1141,15 @@ public class MonitorController implements Initializable {
 			
 			stopAllAlert();
 		}
+	}
+	
+	private void log(String header, String content) {
+		LogEntity log = new LogEntity();
+		log.setHeader(header);
+		log.setContent(content);
+		log.setDateTime(LocalDateTime.now());
+		logger.log(log);
+		
 	}
 	
 	private void stopUpdateStatusThread() {
