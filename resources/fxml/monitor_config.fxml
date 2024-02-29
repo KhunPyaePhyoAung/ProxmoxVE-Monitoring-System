@@ -40,7 +40,7 @@
                      </font>
                      <styleClass>
                         <String fx:value="text_accent" />
-                        <String fx:value="font-xl" />
+                        <String fx:value="font-2xl" />
                         <String fx:value="font-bold" />
                      </styleClass>
                   </Label>
@@ -60,12 +60,13 @@
                      <styleClass>
                         <String fx:value="input_accent" />
                         <String fx:value="border_accent" />
+                        <String fx:value="font-m" />
                      </styleClass>
                   </TextField>
                   <Label fx:id="nameErrorLabel">
                      <styleClass>
                         <String fx:value="text_red" />
-                        <String fx:value="font-s" />
+                        <String fx:value="font-m" />
                      </styleClass></Label>
                </children>
             </VBox>
@@ -80,12 +81,13 @@
                      <styleClass>
                         <String fx:value="input_accent" />
                         <String fx:value="border_accent" />
+                        <String fx:value="font-m" />
                      </styleClass>
                   </TextField>
                   <Label fx:id="hostnameErrorLabel">
                      <styleClass>
                         <String fx:value="text_red" />
-                        <String fx:value="font-s" />
+                        <String fx:value="font-m" />
                      </styleClass></Label>
                </children>
             </VBox>
@@ -96,16 +98,17 @@
                         <String fx:value="text_white" />
                         <String fx:value="font-m" />
                      </styleClass></Label>
-                  <TextField fx:id="portInput">
+                  <TextField fx:id="portInput" onAction="#saveConfiguration">
                      <styleClass>
                         <String fx:value="input_accent" />
                         <String fx:value="border_accent" />
+                        <String fx:value="font-m" />
                      </styleClass>
                   </TextField>
                   <Label fx:id="portErrorLabel">
                      <styleClass>
                         <String fx:value="text_red" />
-                        <String fx:value="font-s" />
+                        <String fx:value="font-m" />
                      </styleClass></Label>
                </children>
             </VBox>

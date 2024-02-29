@@ -174,10 +174,11 @@ public class MonitorNotificationWindowController implements Initializable {
 					Set<String> users = noti.getRecipients();
 					userTableView.getItems().addAll(users);
 				}
+				groupNameInput.setText(noti.getGroupName());
+				nameLabel.setText(config.getName());
+				addressLabel.setText(String.format("%s:%d", config.getHostname(), config.getPort()));
 			}
-			groupNameInput.setText(noti.getGroupName());
-			nameLabel.setText(config.getName());
-			addressLabel.setText(String.format("%s:%d", config.getHostname(), config.getPort()));
+			
 			emailInput.requestFocus();
 		}
 		

@@ -40,7 +40,6 @@ public class ConfirmDeleteMonitorConfigurationDialog extends Stage {
 			this.setScene(new Scene(view));
 			this.initModality(Modality.WINDOW_MODAL);
 			this.initStyle(StageStyle.UNDECORATED);
-			this.centerOnScreen();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -118,7 +118,7 @@
                      </font>
                      <styleClass>
                         <String fx:value="text_accent" />
-                        <String fx:value="font-s" />
+                        <String fx:value="font-m" />
                      </styleClass>
                   </Label>
                </children>
@@ -126,7 +126,7 @@
             <Label fx:id="errorLabel">
                <styleClass>
                   <String fx:value="text_red" />
-                  <String fx:value="font-s" />
+                  <String fx:value="font-m" />
                </styleClass></Label>
             <VBox spacing="5.0">
                <children>
@@ -135,7 +135,7 @@
                         <String fx:value="text_white" />
                         <String fx:value="font-m" />
                      </styleClass></Label>
-                  <TextField fx:id="usernameInput" prefWidth="250.0" text="root">
+                  <TextField fx:id="usernameInput" prefWidth="250.0">
                      <opaqueInsets>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </opaqueInsets>
@@ -154,7 +154,7 @@
                         <String fx:value="text_white" />
                         <String fx:value="font-m" />
                      </styleClass></Label>
-                  <PasswordField fx:id="passwordInput" prefWidth="250.0" text="jicacbmproject">
+                  <PasswordField fx:id="passwordInput" onAction="#login" prefWidth="250.0">
                      <styleClass>
                         <String fx:value="border_accent" />
                         <String fx:value="input_accent" />

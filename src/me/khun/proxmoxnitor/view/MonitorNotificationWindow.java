@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import me.khun.proxmoxnitor.application.ProxmoxnitorApplication;
 import me.khun.proxmoxnitor.controller.MonitorNotificationWindowController;
 import me.khun.proxmoxnitor.entiry.MonitorConfiguration;
@@ -26,10 +27,10 @@ public class MonitorNotificationWindow extends Stage {
 			this.setScene(new Scene(view));
 			this.setResizable(true);
 			this.initModality(Modality.WINDOW_MODAL);
+			this.initStyle(StageStyle.DECORATED);
+			this.controller.setMonitorConfiguration(this.config);
 			this.getIcons().add(ProxmoxnitorApplication.getIconImage());
 			this.setTitle("Notification Configuration");
-			this.centerOnScreen();
-			this.controller.setMonitorConfiguration(this.config);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

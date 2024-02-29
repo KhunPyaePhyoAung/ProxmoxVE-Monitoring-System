@@ -115,6 +115,7 @@ public class MainWindowController implements Initializable {
 		window.initOwner(stage);
 		window.setOnSaveSuccess(this::refreshConfigurationList);
 		window.show();
+		window.centerOnScreen();
 	}
 	
 	private void showMonitorConfigurationForm(MonitorConfiguration config) {
@@ -122,6 +123,7 @@ public class MainWindowController implements Initializable {
 		monitorConfigurationWindow.initOwner(this.stage);
 		monitorConfigurationWindow.setOnSaveSuccess(this::refreshConfigurationList);
 		monitorConfigurationWindow.show();
+		monitorConfigurationWindow.centerOnScreen();
 	}
 	
 	private void showConfirmDeleteMonitorConfigurationDialog(MonitorConfiguration config) {
@@ -129,6 +131,7 @@ public class MainWindowController implements Initializable {
 		confirmDialog.setOnDeleteSuccess(this::refreshConfigurationList);
 		confirmDialog.initOwner(this.stage);
 		confirmDialog.show();
+		confirmDialog.centerOnScreen();
 	}
 	
 	private void showMonitorLoginWindow(MonitorConfiguration config) {
@@ -138,6 +141,7 @@ public class MainWindowController implements Initializable {
 			loginWindow.close();
 			MonitorWindow monitorWindow = new MonitorWindow(loginWindow.getMonitorService());
 			monitorWindow.show();
+			monitorWindow.centerOnScreen();
 		});
 		loginWindow.show();
 	}

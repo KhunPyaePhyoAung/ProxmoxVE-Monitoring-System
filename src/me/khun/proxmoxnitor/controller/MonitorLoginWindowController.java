@@ -133,10 +133,21 @@ public class MonitorLoginWindowController implements Initializable {
 	
 	@FXML
 	private void login() {
+		errorLabel.setText(null);
 		showLoadingView("Logging in...");
 		String username = usernameInput.getText();
 		String password = passwordInput.getText();
 		String realm = realmSelector.getValue().getId();
+		
+		if (username == null || username.trim().isEmpty()) {
+			errorLabel.setText("Enter username");
+			showLoginView();
+			return;
+		} else if (password == null || password.trim().isEmpty()) {
+			errorLabel.setText("Enter password");
+			showLoginView();
+			return;
+		}
 		
 		Task<Void> loginTask = new Task<Void>() {
 

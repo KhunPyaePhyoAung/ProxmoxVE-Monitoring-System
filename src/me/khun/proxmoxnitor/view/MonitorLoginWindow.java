@@ -28,7 +28,6 @@ public class MonitorLoginWindow extends Stage {
 			this.setResizable(false);
 			this.initModality(Modality.WINDOW_MODAL);
 			this.initStyle(StageStyle.UNDECORATED);
-			this.centerOnScreen();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

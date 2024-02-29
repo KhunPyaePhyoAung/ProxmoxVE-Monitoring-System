@@ -24,12 +24,12 @@ public class ProxmoxnitorApplication extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/main.fxml"))));
-			primaryStage.centerOnScreen();
 			primaryStage.setResizable(true);
 			primaryStage.setTitle("Proxmoxnitor");
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.getIcons().add(getIconImage());
 			primaryStage.show();
+			primaryStage.centerOnScreen();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
