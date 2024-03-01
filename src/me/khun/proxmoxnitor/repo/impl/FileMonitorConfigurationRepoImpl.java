@@ -25,7 +25,7 @@ public class FileMonitorConfigurationRepoImpl implements MonitorConfigurationRep
 		try {
 			config.setId(UUID.randomUUID().toString());
 			String content = JsonUtil.objectToJson(config);
-			Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations", config.getId() + ".json");
+			Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations", config.getId() + ".json");
 			Files.write(path, content.getBytes(),
 	                 StandardOpenOption.CREATE,
 	                 StandardOpenOption.TRUNCATE_EXISTING);
@@ -43,7 +43,7 @@ public class FileMonitorConfigurationRepoImpl implements MonitorConfigurationRep
 	public MonitorConfiguration update(MonitorConfiguration config) {
 		try {
 			String content = JsonUtil.objectToJson(config);
-			Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations", config.getId() + ".json");
+			Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations", config.getId() + ".json");
 			Files.write(path, content.getBytes(),
 	                 StandardOpenOption.CREATE,
 	                 StandardOpenOption.TRUNCATE_EXISTING);
@@ -60,7 +60,7 @@ public class FileMonitorConfigurationRepoImpl implements MonitorConfigurationRep
 	@Override
 	public List<MonitorConfiguration> findAll() {
 		List<MonitorConfiguration> monitorConfigurations = new LinkedList<>();
-		Path dir = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations");
+		Path dir = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations");
 		try {
 			Files.walk(dir)
 					.filter(Files::isRegularFile)
@@ -88,7 +88,7 @@ public class FileMonitorConfigurationRepoImpl implements MonitorConfigurationRep
 	public boolean deleteById(String id) {
 		
 		try {
-			Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations", id + ".json");
+			Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations", id + ".json");
 			return Files.deleteIfExists(path);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class FileMonitorConfigurationRepoImpl implements MonitorConfigurationRep
 
 	@Override
 	public MonitorConfiguration findById(String id) {
-		Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations", id + ".json");
+		Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations", id + ".json");
 		try {
 			Stream<String> lines;
 			lines = Files.lines(path);

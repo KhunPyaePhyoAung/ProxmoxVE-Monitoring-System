@@ -36,14 +36,14 @@ public class ProxmoxnitorApplication extends Application {
 	}
 	
 	public static void main(String[] args) {
-		Path monitorConfigurationFolder = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "MonitorConfigurations");
+		Path monitorConfigurationFolder = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "MonitorConfigurations");
 		try {
 			Files.createDirectories(monitorConfigurationFolder);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		Path logFolder = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "Logs");
+		Path logFolder = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "Logs");
 		try {
 			Files.createDirectories(logFolder);
 		} catch (IOException e) {

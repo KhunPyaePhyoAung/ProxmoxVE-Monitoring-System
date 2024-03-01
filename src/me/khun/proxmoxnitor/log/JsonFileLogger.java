@@ -33,7 +33,7 @@ public class JsonFileLogger implements Logger {
 			MonitorLog monitorLog = getLog();
 			monitorLog.getLogs().add(log);
 			String content = JsonUtil.objectToJson(monitorLog);
-			Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "Logs", config.getId() + ".json");
+			Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "Logs", config.getId() + ".json");
 			Files.write(path, content.getBytes(),
 	                 StandardOpenOption.CREATE,
 	                 StandardOpenOption.TRUNCATE_EXISTING);
@@ -48,7 +48,7 @@ public class JsonFileLogger implements Logger {
 
 	@Override
 	public MonitorLog getLog() throws ProxmoxConfigurationNotFoundException {
-		Path path = Paths.get(System.getProperty("user.home"), "Proxmoxnitor", "Logs", config.getId() + ".json");
+		Path path = Paths.get(System.getProperty("user.home"), ".Proxmoxnitor", "Logs", config.getId() + ".json");
 		
 		if (!Files.exists(path)) {
 			return new MonitorLog();

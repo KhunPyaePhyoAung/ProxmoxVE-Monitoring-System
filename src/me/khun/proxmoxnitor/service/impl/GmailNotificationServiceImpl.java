@@ -69,7 +69,8 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 	@Override
 	public void setConfiguration(MonitorConfiguration config) {
 		this.config = config;
-		groupName = config.getEmailNotification().getGroupName();
+		EmailNotificationConfiguration noti = config.getEmailNotification();
+		groupName = noti == null ? null : noti.getGroupName();
 		groupName = groupName == null || groupName.trim().isEmpty() ? ProxmoxnitorApplication.getDefaultGroupName() : groupName;
 	}
 
@@ -82,7 +83,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
@@ -101,7 +102,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		StringTemplate template = new StringTemplate(getClass().getResourceAsStream("/template/server_recovery_email.txt"));
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
@@ -123,7 +124,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("nodeName", node);
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
@@ -143,7 +144,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("nodeName", node);
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
@@ -161,7 +162,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		StringTemplate template = new StringTemplate(getClass().getResourceAsStream("/template/session_timeout_email.txt"));
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
@@ -180,7 +181,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		StringTemplate template = new StringTemplate(getClass().getResourceAsStream("/template/session_recovery_email.txt"));
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("serverName", config.getName());
-		params.put("author", ProxmoxnitorApplication.getDefaultAuthorName());
+		params.put("author", author);
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		

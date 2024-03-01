@@ -252,15 +252,15 @@ public class MonitorController implements Initializable {
 	
 	private final int UNAUTHENTICATED_ALERT_LOOP = 1;
 	
-	private final int NODE_NOT_FOUND_ALERT_INTERVAL = 10;
+	private final int NODE_NOT_FOUND_ALERT_INTERVAL = 30;
 	
-	private final int SERVER_DOWN_ALERT_INTERVAL = 10;
+	private final int SERVER_DOWN_ALERT_INTERVAL = 30;
 	
 	private final int SERVER_RECOVERY_ALERT_INTERVAL = 1;
 	
-	private final int UNAUTHENTICATED_ALERT_INTERVAL = 10;
+	private final int UNAUTHENTICATED_ALERT_INTERVAL = 30;
 	
-	private final int REFRESH_TICKET_INTERVAL = 7000;
+	private final int REFRESH_TICKET_INTERVAL = 2000;
 	
 	private boolean showCpuSeries = true;
 	
@@ -316,7 +316,7 @@ public class MonitorController implements Initializable {
 		this.resourceIntervalInSec = DEFAULT_RESOURCE_INTERVAL;
 		
 		statusIntervalSelector.getItems().clear();
-		statusIntervalSelector.getItems().addAll(1, 2, 5, 10, 60);
+		statusIntervalSelector.getItems().addAll(1, 2, 3);
 		statusIntervalSelector.getSelectionModel().select(0);
 		
 		rrdIntervalSelector.getItems().clear();
