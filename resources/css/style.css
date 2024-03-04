@@ -507,3 +507,8 @@ Button:pressed {
 .check-box.io:selected .box {
 	-fx-background-color: #0378ff;
 }
+
+.container_wrapper .glyph-icon{
+	-fx-font-size: 1.8em;
+	-fx-font-family:"Material Design Icons";
+}

@@ -26,6 +26,7 @@ import me.khun.proxmoxnitor.pve.PveNode;
 import me.khun.proxmoxnitor.pve.PveRealm;
 import me.khun.proxmoxnitor.pve.PveResource;
 import me.khun.proxmoxnitor.pve.PveResource.PveResourceStatus;
+import me.khun.proxmoxnitor.pve.PveResource.PveResourceType;
 import me.khun.proxmoxnitor.pve.PveRrdData;
 import me.khun.proxmoxnitor.pve.PveRrdDataType;
 import me.khun.proxmoxnitor.pve.PveStatus;
@@ -443,6 +444,7 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 			PveResource resource = new PveResource();
 			resource.setVmId(container.getInt("vmid"));
 			resource.setName(container.getString("name"));
+			resource.setType(PveResourceType.CONTAINER);
 			resource.setStatus(PveResourceStatus.valueOf(container.getString("status").toUpperCase()));
 			resourceDtos.add(new PveResourceDto(resource));
 		}
@@ -452,6 +454,7 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 			PveResource resource = new PveResource();
 			resource.setVmId(vm.getInt("vmid"));
 			resource.setName(vm.getString("name"));
+			resource.setType(PveResourceType.VM);
 			resource.setStatus(PveResourceStatus.valueOf(vm.getString("status").toUpperCase()));
 			resourceDtos.add(new PveResourceDto(resource));
 		}

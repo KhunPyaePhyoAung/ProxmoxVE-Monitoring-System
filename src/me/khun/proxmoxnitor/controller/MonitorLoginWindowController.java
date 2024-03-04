@@ -85,7 +85,7 @@ public class MonitorLoginWindowController implements Initializable {
 			addressLabel.setText(String.format("%s:%s", config.getHostname(), config.getPort()));
 			
 			setupRealmSelector();
-			
+			usernameInput.requestFocus();
 			
 		});
 	}

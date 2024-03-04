@@ -3,23 +3,22 @@ package me.khun.proxmoxnitor.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.SVGPath;
 import me.khun.proxmoxnitor.dto.PveResourceDto;
 import me.khun.proxmoxnitor.pve.PveResource.PveResourceStatus;
+import me.khun.proxmoxnitor.pve.PveResource.PveResourceType;
 
 public class ResourceCardController implements Initializable {
 	
 	@FXML
 	private Label resourceNameLabel;
-	
-	@FXML
-	private SVGPath statusSvg;
 	
 	@FXML
 	private HBox iconWrapper;
@@ -38,13 +37,23 @@ public class ResourceCardController implements Initializable {
 	}
 	
 	private void setupData() {
-		String runningSvgPath = "M9.984 16.5l6-4.5-6-4.5v9zM12 2.016q4.125 0 7.055 2.93t2.93 7.055-2.93 7.055-7.055 2.93-7.055-2.93-2.93-7.055 2.93-7.055 7.055-2.93z";String stoppedSvgPath = "M14.571 15.857v-7.714c0-0.241-0.188-0.429-0.429-0.429h-7.714c-0.241 0-0.429 0.188-0.429 0.429v7.714c0 0.241 0.188 0.429 0.429 0.429h7.714c0.241 0 0.429-0.188 0.429-0.429zM20.571 12c0 5.679-4.607 10.286-10.286 10.286s-10.286-4.607-10.286-10.286 4.607-10.286 10.286-10.286 10.286 4.607 10.286 10.286z";
+		PveResourceStatus status = PveResourceStatus.valueOf(resource.getStatusString().toUpperCase());
 		
-		PveResourceStatus status = PveResourceStatus.valueOf(resource.getStatus().toUpperCase());
+		MaterialDesignIconView iconView = new MaterialDesignIconView();
+		iconView.setIcon(resource.getType() == PveResourceType.CONTAINER ? MaterialDesignIcon.CUBE : MaterialDesignIcon.LAPTOP_CHROMEBOOK);
+		
+		if (status == PveResourceStatus.RUNNING) {
+//			iconView.setIcon(MaterialDesignIcon.PLAY_CIRCLE);
+			iconView.setFill(Paint.valueOf("#00d438"));
+		} else {
+//			iconView.setIcon(MaterialDesignIcon.CHECKBOX_BLANK_CIRCLE);
+			iconView.setFill(Paint.valueOf("#636363"));
+		}
+		
+		iconView.setFocusTraversable(false);
+		iconWrapper.getChildren().add(iconView);
 		
 		resourceNameLabel.setText(String.format("%d (%s)", resource.getVmId(), resource.getName()));
-		statusSvg.setContent(status == PveResourceStatus.RUNNING ? runningSvgPath : stoppedSvgPath);
-		statusSvg.setFill(Paint.valueOf(status == PveResourceStatus.RUNNING ? "#00d438" : "#636363"));
 	}
 
 }

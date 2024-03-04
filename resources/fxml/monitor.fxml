@@ -633,7 +633,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="bg_gray">
                                        <children>
-                                          <MaterialDesignIconView fill="#02bcfa" glyphName="CUBE" styleClass="font-5xl" />
+                                          <MaterialDesignIconView fill="#02bcfa" glyphName="DROPBOX" styleClass="font-5xl" />
                                           <Label maxWidth="1.7976931348623157E308" text="Resources" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="15.0" />
@@ -679,7 +679,7 @@
                                     </HBox>
                                     <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" styleClass="bg_black" VBox.vgrow="ALWAYS">
                                        <content>
-                                          <VBox fx:id="containerView" />
+                                          <VBox fx:id="containerView" styleClass="container_wrapper" />
                                        </content>
                                     </ScrollPane>
                                  </children>

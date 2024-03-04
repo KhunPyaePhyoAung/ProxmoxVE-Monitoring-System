@@ -87,15 +87,6 @@
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </HBox>
-            <TableView fx:id="userTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg_black" VBox.vgrow="ALWAYS">
-              <columns>
-                <TableColumn fx:id="emailTableColumn" editable="false" prefWidth="-1.0" sortable="false" style="-fx-fill: red; -fx-alignment: CENTER_LEFT;" text="Email" />
-                <TableColumn fx:id="deleteEmailTableColumn" editable="false" maxWidth="1000.0" minWidth="-Infinity" prefWidth="-1.0" sortable="false" text="Delete" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
             <HBox alignment="CENTER_LEFT" style="-fx-padding: 1em 0;">
                <children>
                   <TextField fx:id="emailInput" promptText="Enter email address" style="-fx-prompt-text-fill: gray;" HBox.hgrow="ALWAYS">
@@ -121,6 +112,15 @@
                   </Button>
                </children>
             </HBox>
+            <TableView fx:id="userTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="bg_black" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="emailTableColumn" editable="false" prefWidth="-1.0" sortable="false" style="-fx-fill: red; -fx-alignment: CENTER_LEFT;" text="Email" />
+                <TableColumn fx:id="deleteEmailTableColumn" editable="false" maxWidth="1000.0" minWidth="-Infinity" prefWidth="-1.0" sortable="false" text="Delete" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
             <HBox alignment="CENTER_RIGHT" style="-fx-padding: 1em 0; -fx-spacing: 1em;">
                <children>
                   <Button mnemonicParsing="false" onAction="#closeWindow" style="-fx-pref-width: 6em;" text="Close">

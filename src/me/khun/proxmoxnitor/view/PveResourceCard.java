@@ -23,6 +23,7 @@ public class PveResourceCard extends HBox {
 			this.controller = loader.getController();
 			this.controller.setResource(resource);
 			this.getChildren().add(view);
+			this.setFocusTraversable(false);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

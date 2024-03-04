@@ -1,6 +1,8 @@
 package me.khun.proxmoxnitor.dto;
 
 import me.khun.proxmoxnitor.pve.PveResource;
+import me.khun.proxmoxnitor.pve.PveResource.PveResourceStatus;
+import me.khun.proxmoxnitor.pve.PveResource.PveResourceType;
 
 public class PveResourceDto {
 
@@ -18,7 +20,7 @@ public class PveResourceDto {
 		return resource.getName();
 	}
 	
-	public String getStatus() {
+	public String getStatusString() {
 		switch (resource.getStatus()) {
 			case RUNNING:
 				return "Running";
@@ -26,5 +28,13 @@ public class PveResourceDto {
 				return "Stopped";
 		}
 		return "";
+	}
+	
+	public PveResourceStatus getStatus() {
+		return resource.getStatus();
+	}
+	
+	public PveResourceType getType() {
+		return resource.getType();
 	}
 }
