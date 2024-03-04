@@ -17,6 +17,7 @@ import me.khun.proxmoxnitor.dto.PveResourceDto;
 import me.khun.proxmoxnitor.dto.PveRrdDataDto;
 import me.khun.proxmoxnitor.dto.PveStatusDto;
 import me.khun.proxmoxnitor.entiry.MonitorConfiguration;
+import me.khun.proxmoxnitor.exception.NoNetworkException;
 import me.khun.proxmoxnitor.exception.ProxmoxAuthenticationException;
 import me.khun.proxmoxnitor.exception.ProxmoxConfigurationNotFoundException;
 import me.khun.proxmoxnitor.exception.ProxmoxHostNotFoundException;
@@ -80,9 +81,11 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 
 				switch (statusCode) {
 					case 0:
-						throw new ProxmoxHostNotFoundException("Host not found.");
+						throw new NoNetworkException("No network connection.");
 					case 401:
 						throw new ProxmoxAuthenticationException("Login failed.");
+					case 404:
+						throw new ProxmoxHostNotFoundException("Host not found.");
 				}
 				
 				this.username = username;
@@ -137,6 +140,8 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 			case 401:
 				throw new ProxmoxAuthenticationException("Unauthenticated.");
@@ -168,9 +173,10 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		JSONObject statusResponse = node.getStatus().status().getResponse();
 		
 		int statusCode = pve.getLastResult().getStatusCode();
-		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 			case 401:
 				throw new ProxmoxAuthenticationException("Unauthenticated.");
@@ -250,6 +256,8 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 			case 401:
 				throw new ProxmoxAuthenticationException("Unauthenticated.");
@@ -322,6 +330,8 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 		}
 		
@@ -361,6 +371,8 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 			case 401:
 				throw new ProxmoxAuthenticationException("Unauthenticated.");
@@ -412,6 +424,8 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		switch (statusCode) {
 			case 0:
+				throw new NoNetworkException("No network connection.");
+			case 404:
 				throw new ProxmoxHostNotFoundException("Host not found.");
 			case 401:
 				throw new ProxmoxAuthenticationException("Unauthenticated.");
@@ -446,5 +460,4 @@ public class Cv4PveMonitorServiceImpl implements MonitorService {
 		
 		return resourceDtos;
 	}
-
 }

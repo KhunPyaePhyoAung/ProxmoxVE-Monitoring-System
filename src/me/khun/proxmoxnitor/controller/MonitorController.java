@@ -57,6 +57,7 @@ import me.khun.proxmoxnitor.dto.PveResourceDto;
 import me.khun.proxmoxnitor.dto.PveRrdDataDto;
 import me.khun.proxmoxnitor.dto.PveStatusDto;
 import me.khun.proxmoxnitor.entiry.MonitorConfiguration;
+import me.khun.proxmoxnitor.exception.NoNetworkException;
 import me.khun.proxmoxnitor.exception.ProxmoxAuthenticationException;
 import me.khun.proxmoxnitor.exception.ProxmoxHostNotFoundException;
 import me.khun.proxmoxnitor.exception.ProxmoxNodeNotFoundException;
@@ -92,6 +93,9 @@ public class MonitorController implements Initializable {
 	
 	@FXML
 	private VBox nodeErrorView;
+	
+	@FXML
+	private VBox noNetworkView;
 	
 	@FXML
 	private VBox containerView;
@@ -212,6 +216,8 @@ public class MonitorController implements Initializable {
 	
 	private volatile Timeline unauthenticatedAlertTimeline;
 	
+	private volatile Timeline noNetworkAlertTimeline;
+	
 	private volatile Timeline updateRrdTimeline;
 	
 	private volatile Timeline updateResourceTimeline;
@@ -246,19 +252,25 @@ public class MonitorController implements Initializable {
 	
 	private Clip unauthenticatedSoundClip;
 	
+	private Clip noNetworkSoundClip;
+	
 	private final int NODE_NOT_FOUND_ALERT_LOOP = 2;
 	
 	private final int SERVER_DOWN_ALERT_LOOP = 2;
 	
 	private final int UNAUTHENTICATED_ALERT_LOOP = 1;
 	
+	private final int NO_NETWORK_ALERT_LOOP = 1;
+	
 	private final int NODE_NOT_FOUND_ALERT_INTERVAL = 30;
 	
-	private final int SERVER_DOWN_ALERT_INTERVAL = 30;
+	private final int SERVER_DOWN_ALERT_INTERVAL = 15;
 	
-	private final int SERVER_RECOVERY_ALERT_INTERVAL = 1;
+	private final int SERVER_RECOVERY_ALERT_INTERVAL = 2;
 	
-	private final int UNAUTHENTICATED_ALERT_INTERVAL = 30;
+	private final int UNAUTHENTICATED_ALERT_INTERVAL = 10;
+	
+	private final int NO_NETWORK_ALERT_INTERVAL = 10;
 	
 	private final int REFRESH_TICKET_INTERVAL = 2000;
 	
@@ -283,7 +295,7 @@ public class MonitorController implements Initializable {
 	private String configId;
 	
 	private enum MonitorStatus {
-		RUNNING, STOPPED, NODE_NOT_FOUND, SERVER_DOWN, SESSION_TIMEOUT
+		RUNNING, STOPPED, NODE_NOT_FOUND, SERVER_DOWN, SESSION_TIMEOUT, NO_NETWORK
 	}
 	
 	@Override
@@ -462,7 +474,6 @@ public class MonitorController implements Initializable {
 
 				   @Override
 				   public void handle(ActionEvent event) {
-					   System.out.println("Updating Status");
 					   stopUpdateStatusTask();
 					   stopUpdateStatusThread();
 					   if (status == MonitorStatus.STOPPED) {
@@ -483,8 +494,8 @@ public class MonitorController implements Initializable {
 						};
 						
 						updateStatusTask.setOnSucceeded(e -> {
-							handleRecoveryEvents();
 							System.out.println("Fetching Status Success");
+							handleRecoveryEvents();
 							
 							try {
 								showMonitorNodeView();
@@ -502,7 +513,6 @@ public class MonitorController implements Initializable {
 							
 						});
 						
-						System.out.println("Starting Status Thread");
 						updateStatusThread = new Thread(updateStatusTask);
 						updateStatusThread.start();
 						
@@ -524,7 +534,6 @@ public class MonitorController implements Initializable {
 
 				   @Override
 				   public void handle(ActionEvent event) {
-					   System.out.println("Updating RRDData");
 					   stopUpdateRrdTask();
 					   stopUpdateRrdThread();
 					   if (status == MonitorStatus.STOPPED) {
@@ -579,7 +588,6 @@ public class MonitorController implements Initializable {
 
 				   @Override
 				   public void handle(ActionEvent event) {
-					   System.out.println("Updating Resource");
 					   stopUpdateResourceTask();
 					   stopUpdateResourceThread();
 					   if (status == MonitorStatus.STOPPED) {
@@ -625,15 +633,19 @@ public class MonitorController implements Initializable {
 	}
 	
 	private void handleRecoveryEvents() {
+//		stopAllAlert();
 		handleServerRecovery();
 		handleNodeRecovery();
 		handleSessionRecovery();
+		handleNetworkRecovery();
 	}
 	
 
 	private void handleFailureExceptions(Throwable e) {
 		try {
 			throw e;
+		} catch (NoNetworkException ex) {
+			handleNoNetWork();
 		} catch (ProxmoxHostNotFoundException ex) {
 			handleServerDown();
 		} catch (ProxmoxAuthenticationException ex) {
@@ -673,6 +685,21 @@ public class MonitorController implements Initializable {
 		restartUpdateRrdThread();
 	}
 	
+	private void handleNoNetWork() {
+		synchronized (status) {
+			if (status != MonitorStatus.NO_NETWORK) {
+				status = MonitorStatus.NO_NETWORK;
+				runBackground(() -> {
+					emailNotificationService.sendNoNetworkNotification();
+					log("No Network Access", "Cannot connect to proxmox server.");
+				});
+				stopAllAlert();
+				noNetworkAlertTimeline.play();
+				showNoNetworkView();
+			}
+		}
+	}
+	
 	private void handleServerDown() {
 		synchronized (status) {
 			if (status != MonitorStatus.SERVER_DOWN) {
@@ -688,6 +715,20 @@ public class MonitorController implements Initializable {
 			}
 		}
 		
+	}
+	
+	private void handleNetworkRecovery() {
+		synchronized (status) {
+			if (status == MonitorStatus.NO_NETWORK) {
+				status = MonitorStatus.RUNNING;
+				runBackground(() -> {
+					emailNotificationService.sendNetworkRecoveryNotification();
+					log("Network Recovery", "The network is available back.");
+				});
+				stopAllAlert();
+				serverRecoveryAlertTimeline.play();
+			}
+		}
 	}
 	
 	private void handleServerRecovery() {
@@ -934,6 +975,10 @@ public class MonitorController implements Initializable {
 		monitorView.toFront();
 	}
 	
+	private void showNoNetworkView() {
+		noNetworkView.toFront();
+	}
+	
 	private void showServerDownView() {
 		serverDownView.toFront();
 	}
@@ -974,6 +1019,11 @@ public class MonitorController implements Initializable {
             AudioInputStream audioInputStream4 = AudioSystem.getAudioInputStream(bufferedIn4);
             unauthenticatedSoundClip = AudioSystem.getClip();
             unauthenticatedSoundClip.open(audioInputStream4);
+            
+            InputStream bufferedIn5 = new BufferedInputStream(getClass().getResourceAsStream("/sound/archivo_11.wav"));
+            AudioInputStream audioInputStream5 = AudioSystem.getAudioInputStream(bufferedIn5);
+            noNetworkSoundClip = AudioSystem.getClip();
+            noNetworkSoundClip.open(audioInputStream5);
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
@@ -1051,6 +1101,24 @@ public class MonitorController implements Initializable {
 		);
 		unauthenticatedAlertTimeline.setDelay(Duration.seconds(0));
 		unauthenticatedAlertTimeline.setCycleCount(Timeline.INDEFINITE);
+		
+		noNetworkAlertTimeline = new Timeline();
+		noNetworkAlertTimeline.getKeyFrames().setAll(
+			new KeyFrame(
+				Duration.ZERO,
+				new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						playNoNetworkAlert();
+					}
+					
+				}
+			),
+			new KeyFrame(Duration.seconds(NO_NETWORK_ALERT_INTERVAL))
+		);
+		noNetworkAlertTimeline.setDelay(Duration.seconds(0));
+		noNetworkAlertTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
 	private void playNodeNotFoundAlert() {
@@ -1068,6 +1136,12 @@ public class MonitorController implements Initializable {
 	private void playServerRecoveryAlert() {
 		serverRecoverySoundClip.setFramePosition(0);
 		serverRecoverySoundClip.start();
+	}
+	
+	private void playNoNetworkAlert() {
+		noNetworkSoundClip.loop(NO_NETWORK_ALERT_LOOP);
+		noNetworkSoundClip.setFramePosition(0);
+		noNetworkSoundClip.start();
 	}
 	
 	private void playUnauthenticatedAlert() {
@@ -1107,6 +1181,14 @@ public class MonitorController implements Initializable {
 		
 		if (unauthenticatedAlertTimeline != null) {
 			unauthenticatedAlertTimeline.stop();
+		}
+		
+		if (noNetworkSoundClip != null) {
+			noNetworkSoundClip.stop();
+		}
+		
+		if (noNetworkAlertTimeline != null) {
+			noNetworkAlertTimeline.stop();
 		}
 		
 	}

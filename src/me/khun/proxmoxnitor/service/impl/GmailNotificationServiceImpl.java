@@ -191,6 +191,45 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		sendEmail(subject, content);
 	}
 	
+
+	@Override
+	public void sendNoNetworkNotification() throws ProxmoxConfigurationNotFoundException {
+		if (config == null) {
+			throw new ProxmoxConfigurationNotFoundException("Configuration not found.");
+		}
+		
+		StringTemplate template = new StringTemplate(getClass().getResourceAsStream("/template/no_network_email.txt"));
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("serverName", config.getName());
+		params.put("author", author);
+		params.put("groupName", groupName);
+		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
+		
+		String subject = "Loss of Network Connection to Proxmox Server";
+		String content = template.bind(params);
+		
+		sendEmail(subject, content);
+	}
+	
+	@Override
+	public void sendNetworkRecoveryNotification() throws ProxmoxConfigurationNotFoundException {
+		if (config == null) {
+			throw new ProxmoxConfigurationNotFoundException("Configuration not found.");
+		}
+		
+		StringTemplate template = new StringTemplate(getClass().getResourceAsStream("/template/network_recovery_email.txt"));
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("serverName", config.getName());
+		params.put("author", author);
+		params.put("groupName", groupName);
+		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
+		
+		String subject = "Network Connectivity Restored for Proxmox Server";
+		String content = template.bind(params);
+		
+		sendEmail(subject, content);
+	}
+	
 	private void sendEmail(String subject, String content) {
 		EmailNotificationConfiguration noti = config.getEmailNotification();
 		if (noti == null || !noti.isEnabled() || noti.getRecipients() == null || noti.getRecipients().isEmpty()) {
@@ -213,5 +252,8 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 			e.printStackTrace();
 		}
 	}
+
+	
+
 
 }

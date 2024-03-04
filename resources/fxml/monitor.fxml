@@ -79,7 +79,7 @@
                      </font>
                      <styleClass>
                         <String fx:value="text_white" />
-                        <String fx:value="font-xxl" />
+                        <String fx:value="font-2xl" />
                         <String fx:value="font-bold" />
                      </styleClass>
                   </Label>
@@ -117,6 +117,17 @@
                   </VBox>
                </children>
             </VBox>
+         </children>
+      </VBox>
+      <VBox fx:id="noNetworkView" alignment="CENTER" style="-fx-spacing: 2em;" styleClass="bg_black">
+         <children>
+            <MaterialDesignIconView fill="RED" glyphName="WIFI_OFF" style="-fx-font-size: 10em;" />
+            <Label text="No network access" textFill="RED">
+               <styleClass>
+                  <String fx:value="font-big-m" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Label>
          </children>
       </VBox>
       <BorderPane fx:id="monitorView" styleClass="bg_black" StackPane.alignment="TOP_CENTER">

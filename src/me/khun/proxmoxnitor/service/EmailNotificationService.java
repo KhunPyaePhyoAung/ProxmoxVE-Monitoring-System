@@ -18,4 +18,8 @@ public interface EmailNotificationService {
 	void sendSessionTimeoutNotification() throws ProxmoxConfigurationNotFoundException;
 	
 	void sendSessionRecoveryNotification() throws ProxmoxConfigurationNotFoundException;
+	
+	void sendNoNetworkNotification()  throws ProxmoxConfigurationNotFoundException;
+	
+	void sendNetworkRecoveryNotification()  throws ProxmoxConfigurationNotFoundException;
 }

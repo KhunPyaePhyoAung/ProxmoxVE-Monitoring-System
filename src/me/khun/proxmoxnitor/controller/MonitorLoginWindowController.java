@@ -43,6 +43,9 @@ public class MonitorLoginWindowController implements Initializable {
 	private Label nameLabel;
 	
 	@FXML
+	private Label hostErrorLabel;
+	
+	@FXML
 	private Label addressLabel;
 	
 	@FXML
@@ -124,7 +127,7 @@ public class MonitorLoginWindowController implements Initializable {
 		});
 		
 		realmLoader.setOnFailed(e -> {
-			showHostErrorView();
+			showHostErrorView(realmLoader.getException().getMessage());
 		});
 		
 		Thread realmLoaderThread = new Thread(realmLoader);
@@ -187,8 +190,9 @@ public class MonitorLoginWindowController implements Initializable {
 		loginView.toFront();
 	}
 	
-	private void showHostErrorView() {
+	private void showHostErrorView(String message) {
 		hostErrorView.toFront();
+		hostErrorLabel.setText(message);
 	}
 	
 	@FXML

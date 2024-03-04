@@ -1,0 +1,11 @@
+Dear ${groupName}!,
+
+	Our monitoring system has detected a loss of network connection to the Proxmox server.
+This loss of connectivity poses a significant risk to our operations, as it impacts our ability to manage and monitor the server effectively.
+
+	Server : ${serverName}! 
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!

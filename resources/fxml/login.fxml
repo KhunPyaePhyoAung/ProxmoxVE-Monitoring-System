@@ -36,7 +36,7 @@
       <VBox fx:id="hostErrorView" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" styleClass="bg_black">
          <children>
             <MaterialDesignIconView fill="RED" glyphName="EARTH_OFF" style="-fx-font-size: 5em;" />
-            <Label text="Host not found.">
+            <Label fx:id="hostErrorLabel">
                <font>
                   <Font size="16.0" />
                </font>

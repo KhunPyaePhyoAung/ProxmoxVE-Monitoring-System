@@ -1,0 +1,10 @@
+Dear ${groupName}!,
+
+	I'm pleased to inform you that the network connectivity issue with our Proxmox server has been successfully resolved.
+
+	Server : ${serverName}! 
+	Time   : ${time}!
+
+Sincerely,
+
+${author}!
