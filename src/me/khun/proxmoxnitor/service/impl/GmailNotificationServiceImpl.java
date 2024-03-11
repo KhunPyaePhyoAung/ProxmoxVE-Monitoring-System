@@ -224,7 +224,7 @@ public class GmailNotificationServiceImpl implements EmailNotificationService {
 		params.put("groupName", groupName);
 		params.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy (E) hh:mm a")));
 		
-		String subject = "Network Connectivity Restored for Proxmox Server";
+		String subject = "Network Connectivity Restored for Proxmox Monitor";
 		String content = template.bind(params);
 		
 		sendEmail(subject, content);

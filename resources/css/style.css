@@ -202,6 +202,10 @@ ScrollPane > .scroll-bar:vertical .increment-button {
 	-fx-text-fill: #02bcfa;
 }
 
+.text_gray {
+	-fx-text-fill: #999999;
+}
+
 .btn_new_monitor_config {
 	-fx-background-color: -fx-accent-color;
 	-fx-background-radius: 50%;

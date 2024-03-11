@@ -15,9 +15,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.Gauge.SkinType;
-import eu.hansolo.medusa.TickMarkType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -38,13 +35,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -71,7 +68,7 @@ import me.khun.proxmoxnitor.service.MonitorService;
 import me.khun.proxmoxnitor.view.MonitorLoginWindow;
 import me.khun.proxmoxnitor.view.PveResourceCard;
 
-public class MonitorController implements Initializable {
+public class MonitorController2 implements Initializable {
 	
 	@FXML
 	private StackPane mainStackPane;
@@ -137,32 +134,10 @@ public class MonitorController implements Initializable {
 	private Label uptimeLabel;
 	
 	@FXML
-	private VBox cpuDashWrapper;
-	
-	@FXML
-	private VBox memoryDashWrapper;
-	
-	@FXML
-	private VBox hdSpaceDashWrapper;
-	
-	@FXML
-	private VBox ioDashWrapper;
-	
-	@FXML
-	private VBox swapDashWrapper;
-	
-	private Gauge cpuDash;
-	
-	private Gauge memoryDash;
-	
-	private Gauge hdSpaceDash;
-	
-	private Gauge ioDash;
-	
-	private Gauge swapDash;
-	
-	@FXML
 	private Label cpuUsageLabel;
+	
+	@FXML
+	private Label loadAverageLabel;
 	
 	@FXML
 	private Label memoryUsageLabel;
@@ -174,13 +149,25 @@ public class MonitorController implements Initializable {
 	private Label ioDelayLabel;
 	
 	@FXML
-	private Label swapUsageLabel;
-	
-	@FXML
 	private Label ksmSharedLabel;
 	
 	@FXML
-	private Label loadAverageLabel;
+	private Label swapUsageLabel;
+	
+	@FXML
+	private ProgressBar memoryProgressBar;
+	
+	@FXML
+	private ProgressBar cpuProgressBar;
+	
+	@FXML
+	private ProgressBar hdSpaceProgressBar;
+	
+	@FXML
+	private ProgressBar ioDelayProgressBar;
+	
+	@FXML
+	private ProgressBar swapProgressBar;
 	
 	@FXML
 	private Label cpusLabel;
@@ -329,7 +316,6 @@ public class MonitorController implements Initializable {
 		fontSizeFactor = (double) rootFontSize / 12;
 		initializeSoundClips();
 		initializeAlertTimelines();
-		initializeDashes();
 		
 		this.statusIntervalInSec = DEFAULT_STATUS_INTERVAL;
 		this.rrdIntervalInSec = DEFAULT_RRD_INTERVAL;
@@ -448,6 +434,7 @@ public class MonitorController implements Initializable {
 							protected Void call() throws Exception {
 								System.out.println("TIcket::::::::::::::::::::::::");
 								monitorService.refreshTicket();
+//								throw new ProxmoxAuthenticationException("Test");
 								return null;
 							}
 						};
@@ -636,11 +623,11 @@ public class MonitorController implements Initializable {
 	}
 	
 	private void handleRecoveryEvents() {
+//		stopAllAlert();
 		handleServerRecovery();
 		handleNodeRecovery();
 		handleSessionRecovery();
 		handleNetworkRecovery();
-		refreshTicketTimeline.playFromStart();
 	}
 	
 
@@ -852,20 +839,19 @@ public class MonitorController implements Initializable {
 		float[] loadAverage = statusDto.getLoadAverage();
 		
 		uptimeLabel.setText(statusDto.getUptime(false));
-		
-		cpuDash.setValue(statusDto.getCpuUsageInPercentage());
-		memoryDash.setValue(statusDto.getUsedMemoryInPercentage());
-		hdSpaceDash.setValue(statusDto.getUsedHdSpaceInPercentage());
-		ioDash.setValue(statusDto.getIoDelayInPercentage());
-		swapDash.setValue(statusDto.getUsedSwapInPercentage());
-		
-		cpuUsageLabel.setText(String.format("%d CPU(s)", statusDto.getCpus()));
-		memoryUsageLabel.setText(String.format("%s/%s", statusDto.getUsedMemoryFormatted(), statusDto.getTotalMemoryFormatted()));
-		hdSpaceUsageLabel.setText(String.format("%s/%s", statusDto.getUsedHdSpaceFormatted(), statusDto.getTotalHdSpaceFormatted()));
-		ioDelayLabel.setText(String.format("%.2f%%", statusDto.getIoDelayInPercentage()));
-		swapUsageLabel.setText(String.format("%s/%s", statusDto.getUsedSwapFormatted(), statusDto.getTotalSwapFormatted()));
+		cpuUsageLabel.setText(String.format("%.2f%% of %d CPU(s)", statusDto.getCpuUsageInPercentage(), statusDto.getCpus()));
 		loadAverageLabel.setText(String.format("%.2f , %.2f , %.2f", loadAverage[0], loadAverage[1], loadAverage[2]));
+		memoryUsageLabel.setText(String.format("%.2f%% (%s of %s)", statusDto.getUsedMemoryInPercentage(), statusDto.getUsedMemoryFormatted(), statusDto.getTotalMemoryFormatted()));
+		hdSpaceUsageLabel.setText(String.format("%.2f%% (%s of %s)", statusDto.getUsedHdSpaceInPercentage(), statusDto.getUsedHdSpaceFormatted(), statusDto.getTotalHdSpaceFormatted()));
 		ksmSharedLabel.setText(String.format("%s", statusDto.getKmsFormatted()));
+		swapUsageLabel.setText(String.format("%.2f%% (%s of %s)", statusDto.getUsedSwapInPercentage(), statusDto.getUsedSwapFormatted(), statusDto.getTotalSwapFormatted()));
+		ioDelayLabel.setText(String.format("%.2f%%", statusDto.getIoDelayInPercentage()));
+		
+		cpuProgressBar.setProgress(statusDto.getCpuUsageInPercentage() / 100);
+		memoryProgressBar.setProgress(statusDto.getUsedMemoryInPercentage() / 100);
+		hdSpaceProgressBar.setProgress(statusDto.getUsedHdSpaceInPercentage() / 100);
+		ioDelayProgressBar.setProgress(statusDto.getIoDelayInPercentage() / 100);
+		swapProgressBar.setProgress(statusDto.getUsedSwapInPercentage() / 100);
 		
 		cpusLabel.setText(String.format("%d x %s (%d Socket%s)", statusDto.getCpus(), statusDto.getCpuModel(), statusDto.getCpuSockets(), statusDto.getCpuSockets() > 1 ? "s" : ""));
 		kernelVersionLabel.setText(statusDto.getKernelVersion());
@@ -896,14 +882,14 @@ public class MonitorController implements Initializable {
 		cpuSeries.getData().forEach(d -> {
 			d.getNode().setCursor(Cursor.HAND);
 			Tooltip t = new Tooltip(String.format("%.2f%%%n%s", d.getYValue(), d.getXValue()));
-			t.setFont(Font.font(14 * fontSizeFactor));
+			t.setFont(Font.font(14));
             Tooltip.install(d.getNode(), t);
 		});
 		
 		ioSeries.getData().forEach(d -> {
 			d.getNode().setCursor(Cursor.HAND);
 			Tooltip t = new Tooltip(String.format("%.2f%%%n%s", d.getYValue(), d.getXValue()));
-			t.setFont(Font.font(14 * fontSizeFactor));
+			t.setFont(Font.font(t.getFont().getSize() * 1.2));
             Tooltip.install(d.getNode(), t);
 		});
 		
@@ -1115,134 +1101,6 @@ public class MonitorController implements Initializable {
 		);
 		noNetworkAlertTimeline.setDelay(Duration.seconds(0));
 		noNetworkAlertTimeline.setCycleCount(Timeline.INDEFINITE);
-	}
-	
-	private void initializeDashes() {
-		SkinType mainSkinType = SkinType.FLAT;
-		SkinType minorSkinType = SkinType.BAR;
-		
-		cpuDash = new Gauge();
-		cpuDash.setMinValue(0);
-		cpuDash.setMaxValue(100);
-		cpuDash.setSkinType(mainSkinType);
-		cpuDash.setValueColor(Color.WHITE);
-		cpuDash.setValueVisible(true);
-		cpuDash.setAnimated(true);
-		cpuDash.setAnimationDuration(300);
-		cpuDash.setUnit("%");
-		cpuDash.setUnitColor(Color.WHITE);
-		cpuDash.setDecimals(2);
-		cpuDash.setAreaIconsVisible(true);
-		cpuDash.setAreaTextVisible(true);
-		cpuDash.setMajorTickMarkColor(Color.WHITE);
-		cpuDash.setMajorTickMarkType(TickMarkType.TRAPEZOID);
-		cpuDash.setMinorTickMarksVisible(false);
-		cpuDash.setNeedleColor(Color.FLORALWHITE);
-		cpuDash.setTickLabelsVisible(false);
-		cpuDash.setBarColor(Color.DEEPSKYBLUE);
-		cpuDash.setBarBackgroundColor(Color.valueOf("#333333"));
-//		cpuDash.setPrefHeight(300 * fontSizeFactor);
-		cpuDashWrapper.getChildren().add(1, cpuDash);
-		
-		memoryDash = new Gauge();
-		memoryDash.setTitle("%");
-		memoryDash.setTitleColor(Color.WHITE);
-		memoryDash.setMinValue(0);
-		memoryDash.setMaxValue(100);
-		memoryDash.setSkinType(minorSkinType);
-		memoryDash.setValueColor(Color.WHITE);
-		memoryDash.setValueVisible(true);
-		memoryDash.setAnimated(true);
-		memoryDash.setAnimationDuration(300);
-		memoryDash.setUnit("%");
-		memoryDash.setUnitColor(Color.WHITE);
-		memoryDash.setDecimals(2);
-		memoryDash.setAreaIconsVisible(true);
-		memoryDash.setAreaTextVisible(true);
-		memoryDash.setMajorTickMarkColor(Color.WHITE);
-		memoryDash.setMajorTickMarkType(TickMarkType.TRAPEZOID);
-		memoryDash.setMinorTickMarksVisible(false);
-		memoryDash.setNeedleColor(Color.FLORALWHITE);
-		memoryDash.setTickLabelsVisible(false);
-		memoryDash.setBarColor(Color.GOLD);
-		memoryDash.setBarBackgroundColor(Color.GRAY);
-//		memoryDash.setPrefHeight(100 * fontSizeFactor);
-		memoryDashWrapper.getChildren().add(1, memoryDash);
-		
-		hdSpaceDash = new Gauge();
-		hdSpaceDash.setTitle("%");
-		hdSpaceDash.setTitleColor(Color.WHITE);
-		hdSpaceDash.setMinValue(0);
-		hdSpaceDash.setMaxValue(100);
-		hdSpaceDash.setSkinType(minorSkinType);
-		hdSpaceDash.setValueColor(Color.WHITE);
-		hdSpaceDash.setValueVisible(true);
-		hdSpaceDash.setAnimated(true);
-		hdSpaceDash.setAnimationDuration(300);
-		hdSpaceDash.setUnit("%");
-		hdSpaceDash.setUnitColor(Color.WHITE);
-		hdSpaceDash.setDecimals(2);
-		hdSpaceDash.setAreaIconsVisible(true);
-		hdSpaceDash.setAreaTextVisible(true);
-		hdSpaceDash.setMajorTickMarkColor(Color.WHITE);
-		hdSpaceDash.setMajorTickMarkType(TickMarkType.TRAPEZOID);
-		hdSpaceDash.setMinorTickMarksVisible(false);
-		hdSpaceDash.setNeedleColor(Color.FLORALWHITE);
-		hdSpaceDash.setTickLabelsVisible(false);
-		hdSpaceDash.setBarColor(Color.ROYALBLUE);
-		hdSpaceDash.setBarBackgroundColor(Color.GRAY);
-//		hdSpaceDash.setPrefHeight(100 * fontSizeFactor);
-		hdSpaceDashWrapper.getChildren().add(1, hdSpaceDash);
-		
-		ioDash = new Gauge();
-		ioDash.setTitle("%");
-		ioDash.setTitleColor(Color.WHITE);
-		ioDash.setMinValue(0);
-		ioDash.setMaxValue(100);
-		ioDash.setSkinType(minorSkinType);
-		ioDash.setValueColor(Color.WHITE);
-		ioDash.setValueVisible(true);
-		ioDash.setAnimated(true);
-		ioDash.setAnimationDuration(300);
-		ioDash.setUnit("%");
-		ioDash.setUnitColor(Color.WHITE);
-		ioDash.setDecimals(2);
-		ioDash.setAreaIconsVisible(true);
-		ioDash.setAreaTextVisible(true);
-		ioDash.setMajorTickMarkColor(Color.WHITE);
-		ioDash.setMajorTickMarkType(TickMarkType.TRAPEZOID);
-		ioDash.setMinorTickMarksVisible(false);
-		ioDash.setNeedleColor(Color.FLORALWHITE);
-		ioDash.setTickLabelsVisible(false);
-		ioDash.setBarColor(Color.LAWNGREEN);
-		ioDash.setBarBackgroundColor(Color.GRAY);
-//		ioDash.setPrefHeight(100 * fontSizeFactor);
-		ioDashWrapper.getChildren().add(1, ioDash);
-		
-		swapDash = new Gauge();
-		swapDash.setTitle("%");
-		swapDash.setTitleColor(Color.WHITE);
-		swapDash.setMinValue(0);
-		swapDash.setMaxValue(100);
-		swapDash.setSkinType(minorSkinType);
-		swapDash.setValueColor(Color.WHITE);
-		swapDash.setValueVisible(true);
-		swapDash.setAnimated(true);
-		swapDash.setAnimationDuration(300);
-		swapDash.setUnit("%");
-		swapDash.setUnitColor(Color.WHITE);
-		swapDash.setDecimals(2);
-		swapDash.setAreaIconsVisible(true);
-		swapDash.setAreaTextVisible(true);
-		swapDash.setMajorTickMarkColor(Color.WHITE);
-		swapDash.setMajorTickMarkType(TickMarkType.TRAPEZOID);
-		swapDash.setMinorTickMarksVisible(false);
-		swapDash.setNeedleColor(Color.FLORALWHITE);
-		swapDash.setTickLabelsVisible(false);
-		swapDash.setBarColor(Color.ORCHID);
-		swapDash.setBarBackgroundColor(Color.GRAY);
-//		swapDash.setPrefHeight(100 * fontSizeFactor);
-		swapDashWrapper.getChildren().add(1, swapDash);
 	}
 	
 	private void playNodeNotFoundAlert() {

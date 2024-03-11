@@ -12,8 +12,8 @@ import me.khun.proxmoxnitor.exception.ProxmoxConfigurationNotFoundException;
 import me.khun.proxmoxnitor.exception.ProxmoxHostNotFoundException;
 import me.khun.proxmoxnitor.exception.ProxmoxNodeNotFoundException;
 import me.khun.proxmoxnitor.pve.PveNode;
-import me.khun.proxmoxnitor.pve.PveRrdDataType;
 import me.khun.proxmoxnitor.pve.PveRealm;
+import me.khun.proxmoxnitor.pve.PveRrdDataType;
 
 public interface MonitorService {
 

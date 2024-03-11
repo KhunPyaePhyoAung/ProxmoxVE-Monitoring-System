@@ -21,7 +21,7 @@ public class PveStatusDto {
 	}
 	
 	public float getCpuUsage() {
-		return status.getCpuUsage();
+		return formatDecimal(status.getCpuUsage());
 	}
 	
 	public float getCpuUsageInPercentage() {
@@ -65,11 +65,11 @@ public class PveStatusDto {
 	}
 	
 	public float getUsedMemoryInPercentage() {
-		return (float)(status.getUsedMemory() * 100) / status.getTotalMemory();
+		return formatDecimal((float)(status.getUsedMemory() * 100) / status.getTotalMemory());
 	}
 	
 	public float getUsedMemory() {
-		return (float)(status.getUsedMemory()) ;
+		return formatDecimal((float)(status.getUsedMemory()));
 	}
 	
 	public String getFreeMemoryFormatted() {
@@ -77,11 +77,11 @@ public class PveStatusDto {
 	}
 	
 	public float getFreeMemoryInPercentage() {
-		return (float) (status.getFreeMemory() * 100) / status.getTotalMemory();
+		return formatDecimal((float) (status.getFreeMemory() * 100) / status.getTotalMemory());
 	}
 	
 	public float getFreeMemory() {
-		return (float) (status.getFreeMemory());
+		return formatDecimal((float) (status.getFreeMemory()));
 	}
 	
 	public String getTotalHdSpaceFormatted() {
@@ -93,11 +93,11 @@ public class PveStatusDto {
 	}
 	
 	public float getUsedHdSpaceInPercentage() {
-		return (float) (status.getUsedHdSpace() * 100) / status.getTotalHdSpace();
+		return formatDecimal((float) (status.getUsedHdSpace() * 100) / status.getTotalHdSpace());
 	}
 	
 	public float getUsedHdSpace() {
-		return (float) (status.getUsedHdSpace());
+		return formatDecimal((float) (status.getUsedHdSpace()));
 	}
 	
 	public String getFreeHdSpaceFormatted() {
@@ -105,7 +105,7 @@ public class PveStatusDto {
 	}
 	
 	public float getFreeHdSpaceInPercentage() {
-		return (float) (status.getFreeHdSpace() * 100) / status.getTotalHdSpace();
+		return formatDecimal((float) (status.getFreeHdSpace() * 100) / status.getTotalHdSpace());
 	}
 	
 	public String getTotalSwapFormatted() {
@@ -117,11 +117,11 @@ public class PveStatusDto {
 	}
 	
 	public float getUsedSwapInPercentage() {
-		return (float) ((status.getTotalSwap() - status.getFreeSwap()) * 100) / status.getTotalSwap() ;
+		return formatDecimal((float) ((status.getTotalSwap() - status.getFreeSwap()) * 100) / status.getTotalSwap());
 	}
 	
 	public float getUsedSwap() {
-		return (float) ((status.getTotalSwap() - status.getFreeSwap()));
+		return formatDecimal((float) ((status.getTotalSwap() - status.getFreeSwap())));
 	}
 	
 	public String getFreeSwapFormatted() {
@@ -129,15 +129,15 @@ public class PveStatusDto {
 	}
 	
 	public float getFreeSwapInPercentage() {
-		return (float) (status.getFreeSwap() - status.getTotalSwap()) * 100;
+		return formatDecimal((float) (status.getFreeSwap() - status.getTotalSwap()) * 100);
 	}
 	
 	public float getIoDelayInPercentage() {
-		return status.getIoDelay() * 100;
+		return formatDecimal(status.getIoDelay() * 100);
 	}
 	
 	public float getIoDelay() {
-		return status.getIoDelay();
+		return formatDecimal(status.getIoDelay());
 	}
 	
 	public String getKmsFormatted() {
