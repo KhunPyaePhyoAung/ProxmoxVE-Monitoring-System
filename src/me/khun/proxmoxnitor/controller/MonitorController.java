@@ -408,7 +408,6 @@ public class MonitorController implements Initializable {
 			
 			
 			List<String> nodeNames = monitorService.getNodeNameList();
-			nodeNames.add("test");
 			nodeSelector.getItems().clear();
 			nodeSelector.getItems().addAll(nodeNames);
 			if (!nodeNames.isEmpty()) {
