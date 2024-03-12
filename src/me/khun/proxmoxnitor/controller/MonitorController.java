@@ -635,11 +635,16 @@ public class MonitorController implements Initializable {
 	}
 	
 	private void handleRecoveryEvents() {
+		synchronized (status) {
+			if (status != MonitorStatus.RUNNING) {
+				monitorService.refreshTicket();
+			}
+		}
 		handleServerRecovery();
 		handleNodeRecovery();
 		handleSessionRecovery();
 		handleNetworkRecovery();
-		refreshTicketTimeline.playFromStart();
+		
 	}
 	
 
